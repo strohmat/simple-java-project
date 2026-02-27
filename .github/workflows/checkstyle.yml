@@ -1,0 +1,25 @@
+name: Java Checkstyle
+
+on: [push, pull_request]
+
+jobs:
+  checkstyle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Download Checkstyle
+        run: |
+          wget https://github.com/checkstyle/checkstyle/releases/latest/download/checkstyle.jar
+
+      - name: Run Checkstyle
+        run: |
+          java -jar checkstyle.jar -c /google_checks.xml src/
